@@ -1,0 +1,103 @@
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}{{ book.title }}{% endblock title %}
+
+{% block content %}
+
+
+
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <ol>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li>Project Details</li>
+      </ol>
+      <h2>{{ book.title }}</h2>
+
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= Portfolio Details Section ======= -->
+  <section id="portfolio-details" class="portfolio-details">
+    <div class="container">
+
+      <div class="row gy-4">
+
+        <div class="col-lg-8">
+          <div class="portfolio-details-slider swiper">
+            <div class="swiper-wrapper align-items-center">
+
+              <div class="swiper-slide">
+                {% if book.cover %}
+                <img src="{{ book.cover.url}}" alt="{{ book.title }}">
+                {% endif %}
+              </div>
+              <!--
+                <div class="swiper-slide">
+                  <img src="assets/img/portfolio/portfolio-2.jpg" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="assets/img/portfolio/portfolio-3.jpg" alt="">
+                </div>
+-->
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="portfolio-info">
+            <h3>Project information</h3>
+            <ul>
+              <!-- <li><strong>Category</strong>: Web design - {{ book.price }}</li> -->
+              <li><strong>Client:</strong> {{ book.client }}</li>
+              <li><strong>Project Name:</strong> {{ book.title }}</li>
+              <li><strong>Project Date:</strong> {{ book.publication_date }}</li>
+              <li><strong>Project URL:</strong> <a href="{{ book.url_link }}">{{ book.url_link }}</a></li>
+            </ul>
+          </div>
+          <div class="portfolio-description">
+            <h2>More information about this project:</h2>
+            <p>
+              {{ book.details }}
+            </p>
+          </div>
+          <div class="portfolio-description">
+            <h2>Technologies Used:</h2>
+            {% for tech in book.technologies.all %}
+            <img src="{% static tech.icon_path %}" alt="{{ tech.name }}" />
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section><!-- End Portfolio Details Section -->
+
+</main>
+
+{% endblock content %}
+
+<!-- End #main 
+
+    <h1>{{ book.title }}</h1>
+    <p>Category: {{ book.category.name }}</p>
+    <p>Date: {{ book.publication_date }}</p>
+    <p>URL: <a href="{{ book.url_link }}">{{ book.url_link }}</a></p>
+    <p>Client: {{ book.client }}</p>
+    <p>Details: {{ book.details }}</p>
+
+    <div>
+      <h2>Technologies Used:</h2>
+      {% for tech in book.technologies.all %}
+      <img src="{% static tech.icon_path %}" alt="{{ tech.name }}" />
+      {% endfor %}
+    </div>-->

@@ -1,0 +1,317 @@
+{% load static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Absolute GIS</title>
+  <meta
+    content="Absolute GIS, LLC specializes in data enrichment, process automation, data visualization, and web mapping applications. Our expert team offers innovative solutions to transform business challenges into opportunities, fostering strong partnerships and leveraging technologies like Heroku, Adobe, Esri, and Python. Explore our services in data enrichment, process automation, business intelligence, and more to enhance your strategic objectives."
+    name="description">
+  <meta
+    content="data enrichment, process automation, data visualization, web mapping applications, business intelligence, Absolute GIS, custom software solutions, technology integration, Heroku, Adobe, Esri, Python, QGIS, Alteryx, Anaconda, Django, Google Cloud, Microsoft Visual Studio, Adobe Illustrator, PostgreSQL, Bootstrap, API development, web applications, user-friendly mapping tools, efficient business operations, COTS, open-source technologies, woman-owned business"
+    name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- modal window -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+
+
+
+  <script>
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+      beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+  </script>
+
+  <!-- =======================================================
+  * Template Name: FlexStart
+  * Updated: Jan 29 2024 with Bootstrap v5.3.2
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="#hero" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <!-- <span>FlexStart</span> -->
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{% url 'home' %}#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'home' %}#about">About</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'home' %}#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'home' %}#project">Projects</a></li>
+          <li><a class="getstarted scrollto" href="{% url 'home' %}#contact">Contact</a></li>
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+
+  {% block content %}
+  {% endblock content %}
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <!-- newsletter_signup.html -->
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 text-center">
+            <h4>Our Newsletter</h4>
+            <p>Stay Ahead of the Curve - Get the Latest Insights Delivered to Your Inbox!</p>
+          </div>
+          <div class="col-lg-6">
+            <!-- Display success message -->
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+
+            <form id="newsletter-form" action="{% url 'subscribe' %}" method="post">
+              {% csrf_token %}
+              <input type="email" name="email" id="email">
+              <input type="submit" value="Subscribe">
+            </form>
+            <div id="form-message"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--
+        <div class="footer-newsletter">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <h4>Our Newsletter</h4>
+                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <form action="" method="post">
+                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    -->
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="{% static 'assets/img/logo.png' %}" alt="">
+              <!-- <span>FlexStart</span> -->
+            </a>
+            <p>Data enrichment, process automation, data visualization and web mapping applications</p>
+            <div class="social-links mt-3">
+              <!-- 
+                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                            
+                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>-->
+              <a href="https://www.linkedin.com/company/absolute-gis" class="linkedin"><i
+                  class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#hero">Home</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#about">About us</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Services</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#project">Projects</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Data Enrichment</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Process Automation</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Business Intelligence</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Web Mapping Applications</a>
+              </li>
+              <li><i class="bi bi-chevron-right"></i> <a href="{% url 'home' %}#services">Data Visualization</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contracting</h4>
+            <p>
+              <br>
+              <br>
+              <br>
+              <strong><a
+                  href="https://sam.gov/entities/view/HPCYV64SQDK3/coreData?status=Active&emrKeyValue=20260504~1689579947556555">SAM
+                  Profile</a></strong><br>
+              <strong>CAGE:</strong> 9MF52<br>
+              <strong>Unique Entity ID:</strong> HPCYV64SQDK3<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Absolute GIS, LLC</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Absolute GIS is 100% Woman-Owned Small Business</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+  <script>
+    document.getElementById('playButton').addEventListener('click', function () {
+      // Hide the placeholder image
+      document.getElementById('placeholderImage').style.display = 'none';
+      // Show the video container and insert the iframe
+      var videoContainer = document.getElementById('videoContainer');
+      videoContainer.style.display = 'block';
+      videoContainer.innerHTML = '<iframe width="893" height="500" src="https://www.youtube.com/embed/aUX1QTU2QGA?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    });
+  </script>
+
+  <script>
+    $('#newsletter-form').submit(function (event) {
+      event.preventDefault();  // Prevent the default form submission
+
+      $.ajax({
+        type: $(this).attr('method'),  // GET or POST
+        url: $(this).attr('action'),   // the URL to which the request is sent
+        data: $(this).serialize(),     // serialize the form data
+        success: function (response) {
+          // Display a success message (response from the server)
+          $('#form-message').text(response.message);
+        },
+        error: function (xhr, status, error) {
+          // Display an error message
+          $('#form-message').text('An error occurred: ' + xhr.responseText);
+          console.error('AJAX Error: ' + status + error);
+          console.error(xhr.responseText);
+        }
+      });
+    });
+  </script>
+  <!-- Place this modal code before the closing </body> tag in your base template -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="login-email" class="col-form-label">Email:</label>
+              <input type="email" class="form-control" id="login-email" name="login">
+            </div>
+            <div class="mb-3">
+              <label for="login-password" class="col-form-label">Password:</label>
+              <input type="password" class="form-control" id="login-password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>
