@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "whitenoise.runserver_nostatic",  # new
+    # "whitenoise.runserver_nostatic",  # new
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third-party
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # new
+    # "whitenoise.middleware.WhiteNoiseMiddleware",  # new
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -142,16 +142,9 @@ USE_TZ = True
 # Google Cloud Storage settings -- GIT Commit V2 Google Cloud Storage
 GS_BUCKET_NAME = 'absolutegis'
 
-if 'DJANGO_GOOGLE_APPLICATION_CREDENTIALS_JSON' in os.environ:
-    # Load credentials from environment variable
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-        json.loads(os.getenv('DJANGO_GOOGLE_APPLICATION_CREDENTIALS_JSON'))
-    )
-else:
-    # Load credentials from a JSON file (local development)
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-        os.path.join(BASE_DIR, 'credentials', 'service-account-key.json')
-    )
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    '/code/google_credentials.json'
+)
 
 # GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
 #    os.path.join(BASE_DIR, 'credentials', 'service-account-key.json')
@@ -237,4 +230,4 @@ SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
 CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")  # new
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
+#STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
