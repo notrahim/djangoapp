@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from environs import Env
+from google.oauth2 import service_account
 import os
 import json
-from google.oauth2 import service_account
+
 
 env = Env()
 env.read_env()
