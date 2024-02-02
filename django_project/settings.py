@@ -9,11 +9,10 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 from environs import Env
 from google.oauth2 import service_account
-import os
 import json
 
 
@@ -142,9 +141,22 @@ USE_TZ = True
 # Google Cloud Storage settings -- GIT Commit V2 Google Cloud Storage
 GS_BUCKET_NAME = 'absolutegis'
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    '/code/google_credentials.json'
-)
+gcp_credentials_dict = {
+    "type": os.environ.get("GCP_TYPE"),
+    "project_id": os.environ.get("GCP_PROJECT_ID"),
+    "private_key_id": os.environ.get("GCP_PRIVATE_KEY_ID"),
+    "private_key": os.environ.get("GCP_PRIVATE_KEY").replace('\\n', '\n'),
+    "client_email": os.environ.get("GCP_CLIENT_EMAIL"),
+    "client_id": os.environ.get("GCP_CLIENT_ID"),
+    "auth_uri": os.environ.get("GCP_AUTH_URI"),
+    "token_uri": os.environ.get("GCP_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.environ.get("GCP_AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.environ.get("GCP_CLIENT_X509_CERT_URL"),
+    "universe_domain": os.environ.get("GCP_UNIVERSE_DOMAIN")
+}
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(gcp_credentials_dict)
+
 
 # GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
 #    os.path.join(BASE_DIR, 'credentials', 'service-account-key.json')
