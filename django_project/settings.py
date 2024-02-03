@@ -24,9 +24,6 @@ env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
@@ -157,11 +154,35 @@ GS_BUCKET_NAME = 'absolutegis'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Specify the full path to the service-account-key.json file
-GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
+#GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
 
 # Configure Google Cloud Storage credentials using the file path
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
-                                                                       
+#GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
+
+# Load credentials from an environment variable
+#GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+#if GS_CREDENTIALS_JSON:
+#    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+#        json.loads(GS_CREDENTIALS_JSON)
+#    )  
+
+
+# Configure Google Cloud Storage credentials
+GS_CREDENTIALS = None
+
+# Check if the environment variable is set (Heroku)
+GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+if GS_CREDENTIALS_JSON:
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        json.loads(GS_CREDENTIALS_JSON)
+    )
+else:
+    # Fallback to file-based credentials for local development
+    GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
+    if os.path.exists(GS_CREDENTIALS_FILE):
+        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
+
+
 
 
 
@@ -176,28 +197,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Temporary local directory
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 # Media files settings
-# commented out MEDIA_URL and DEFAULT_FILE_STORAGE to use local /tmp folder in containers for processing CSV files # STABLE BEFORE CHANGE
 MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/media/'
-# Chaning MEDIA_ROOT to overwrite GCS and save to local /tmp folder in containers for processing CSV files
-# MEDIA_ROOT = BASE_DIR / "mediafiles"  # Temporary local directory for media files (This was working for GCS before change below)
-# MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'tmp2') not good... creating another tmp folder name 'tmp2' in root
 
-#@@@@@@@@@ the below item was working great for /tmp/ folder for celery process... going back to GCS above to test # STABLE BEFORE CHANGE
-# MEDIA_ROOT = os.path.dirname(BASE_DIR)
-# STABLE BEFORE CHANGE --> DEFAULT_FILE_STORAGE was commented out.
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-
-
-#STATIC_URL = "static/"
-#STATICFILES_DIRS = [BASE_DIR / "static"]
-#STATIC_ROOT = BASE_DIR / "staticfiles"
-#STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-
-#MEDIA_URL = "/media/"
-#MEDIA_ROOT = BASE_DIR / "media"
-
-
 
 
 # Default primary key field type - d
