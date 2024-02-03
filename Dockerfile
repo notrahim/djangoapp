@@ -17,3 +17,6 @@ RUN pip install -r requirements.txt
 
 # Copy project
 COPY . .
+
+# Command to run the application
+CMD gunicorn django_project.wsgi:application --bind 0.0.0.0:$PORT
