@@ -17,7 +17,6 @@ python.code/add new page.md
 hubzone_polygons_.dump
 hubzone_polygons_backup.dump
 hubzone_polygons_dump.custom
-models.py
 backup_before_prod.dump
 database_structure.md
 hubzone_polygons.sql
