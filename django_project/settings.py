@@ -14,6 +14,7 @@ from pathlib import Path
 from environs import Env
 from google.oauth2 import service_account
 import json
+import dj_database_url
 
 
 env = Env()
@@ -96,11 +97,22 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Default configuration for local development
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db_absolutegis/postgres")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        # No password needed for local development with 'trust' authentication
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+        'HOST': 'db_absolutegis',  # Matches the service name in docker-compose.yml
+        'PORT': '5432',
+    }
 }
 
-
+# Override with DATABASE_URL from the environment variable in production (Heroku)
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -141,21 +153,16 @@ USE_TZ = True
 # Google Cloud Storage settings -- GIT Commit V2 Google Cloud Storage
 GS_BUCKET_NAME = 'absolutegis'
 
-gcp_credentials_dict = {
-    "type": os.environ.get("GCP_TYPE"),
-    "project_id": os.environ.get("GCP_PROJECT_ID"),
-    "private_key_id": os.environ.get("GCP_PRIVATE_KEY_ID"),
-    "private_key": os.environ.get("GCP_PRIVATE_KEY").replace('\\n', '\n'),
-    "client_email": os.environ.get("GCP_CLIENT_EMAIL"),
-    "client_id": os.environ.get("GCP_CLIENT_ID"),
-    "auth_uri": os.environ.get("GCP_AUTH_URI"),
-    "token_uri": os.environ.get("GCP_TOKEN_URI"),
-    "auth_provider_x509_cert_url": os.environ.get("GCP_AUTH_PROVIDER_X509_CERT_URL"),
-    "client_x509_cert_url": os.environ.get("GCP_CLIENT_X509_CERT_URL"),
-    "universe_domain": os.environ.get("GCP_UNIVERSE_DOMAIN")
-}
+# Determine the base directory of your project
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(gcp_credentials_dict)
+# Specify the full path to the service-account-key.json file
+GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
+
+# Configure Google Cloud Storage credentials using the file path
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
+                                                                       
+
 
 
 # GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
@@ -164,8 +171,8 @@ GS_CREDENTIALS = service_account.Credentials.from_service_account_info(gcp_crede
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Add this line if you have a 'static' directory in your project
-STATIC_ROOT = BASE_DIR / "staticfiles"  # Temporary local directory for collectstatic
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line if you have a 'static' directory in your project
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Temporary local directory for collectstatic
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 # Media files settings
