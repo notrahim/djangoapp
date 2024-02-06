@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from environs import Env
-from google.oauth2 import service_account
 import json
 import dj_database_url
 
@@ -22,6 +21,10 @@ env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# settings.py
+
+STATIC_URL = '/static/'
+
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -102,7 +105,7 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER', 'postgres'),
         # No password needed for local development with 'trust' authentication
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-        'HOST': 'db_absolutegis',  # Matches the service name in docker-compose.yml
+        'HOST': '0.0.0.0',  # Matches the service name in docker-compose.yml
         'PORT': '5432',
     }
 }
@@ -148,39 +151,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 # Google Cloud Storage settings -- GIT Commit V2 Google Cloud Storage
-GS_BUCKET_NAME = 'absolutegis'
+# GS_BUCKET_NAME = 'absolutegis'
 
-# Determine the base directory of your project
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# # Determine the base directory of your project
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Specify the full path to the service-account-key.json file
-#GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
+# # Specify the full path to the service-account-key.json file
+# #GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
 
-# Configure Google Cloud Storage credentials using the file path
-#GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
+# # Configure Google Cloud Storage credentials using the file path
+# #GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
 
-# Load credentials from an environment variable
-#GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
-#if GS_CREDENTIALS_JSON:
-#    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-#        json.loads(GS_CREDENTIALS_JSON)
-#    )  
+# # Load credentials from an environment variable
+# #GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+# #if GS_CREDENTIALS_JSON:
+# #    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+# #        json.loads(GS_CREDENTIALS_JSON)
+# #    )  
 
 
-# Configure Google Cloud Storage credentials
-GS_CREDENTIALS = None
+# # Configure Google Cloud Storage credentials
+# GS_CREDENTIALS = None
 
-# Check if the environment variable is set (Heroku)
-GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
-if GS_CREDENTIALS_JSON:
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-        json.loads(GS_CREDENTIALS_JSON)
-    )
-else:
-    # Fallback to file-based credentials for local development
-    GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
-    if os.path.exists(GS_CREDENTIALS_FILE):
-        GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
+# # Check if the environment variable is set (Heroku)
+# GS_CREDENTIALS_JSON = os.environ.get('GS_CREDENTIALS_JSON')
+# if GS_CREDENTIALS_JSON:
+#     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+#         json.loads(GS_CREDENTIALS_JSON)
+#     )
+# else:
+#     # Fallback to file-based credentials for local development
+#     GS_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'django_project', 'service-account-key.json')
+#     if os.path.exists(GS_CREDENTIALS_FILE):
+#         GS_CREDENTIALS = service_account.Credentials.from_service_account_file(GS_CREDENTIALS_FILE)
 
 
 
@@ -191,15 +194,15 @@ else:
 #)
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line if you have a 'static' directory in your project
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Temporary local directory for collectstatic
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# STATIC_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Add this line if you have a 'static' directory in your project
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Temporary local directory for collectstatic
+# STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
-# Media files settings
-MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/media/'
+# # Media files settings
+# MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/media/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 
 # Default primary key field type - d
