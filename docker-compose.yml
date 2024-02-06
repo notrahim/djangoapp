@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  web_absolutegis:
+    build: .
+    command: gunicorn django_project.wsgi -b 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - ./credentials/google_credentials.json:/code/google_credentials.json
+    ports:
+      - 8001:8000 # Change the port to avoid conflict with the other app
+    depends_on:
+      - db_absolutegis
+    environment:
+      - "DJANGO_SECRET_KEY=UH0rxrYlx8Mt7PhfabPcOF_f4tUbjsShdYTWitZmriHZ5AQPkuCvFWhx-TLw00bHMdk"
+      - "DJANGO_DEBUG=True"
+      - "DJANGO_SECURE_SSL_REDIRECT=False" # new
+      - "DJANGO_SECURE_HSTS_SECONDS=0" # new
+      - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False" # new
+      - "DJANGO_SECURE_HSTS_PRELOAD=False" # new
+      - "DJANGO_SESSION_COOKIE_SECURE=False" # new
+      - "DJANGO_CSRF_COOKIE_SECURE=False" # new
+
+  db_absolutegis:
+    image: postgres:16
+    volumes:
+      - postgres_data_absolutegis:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432 # Expose port 5432
+    environment:
+       - "POSTGRES_HOST_AUTH_METHOD=trust"
+      #  - "POSTGRES_USER=postgres"
+      #  - "POSTGRES_PASSWORD=postgres"
+
+
+volumes:
+  postgres_data_absolutegis:

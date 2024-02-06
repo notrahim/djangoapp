@@ -1,22 +1,22 @@
-.venv
-__pycache__/
-db.sqlite3
-.DS_Store  # Mac only
-docker-compose.yml
-docker-compose-prod.yml
-credentials
-django_project/service-account-key.json
-django_project/settings_.py
-.settings_google_cloud_storage.py
-ch4-bookstore/credentials/service-account-heroku.json
-google_credentials.json
-wkt
-Trash
-hubzone_polygons.dump
-python.code/add new page.md
-hubzone_polygons_.dump
-hubzone_polygons_backup.dump
-hubzone_polygons_dump.custom
-backup_before_prod.dump
-database_structure.md
-hubzone_polygons.sql
+# .venv
+# __pycache__/
+# db.sqlite3
+# .DS_Store  # Mac only
+# docker-compose.yml
+# docker-compose-prod.yml
+# credentials
+# django_project/service-account-key.json
+# django_project/settings_.py
+# .settings_google_cloud_storage.py
+# ch4-bookstore/credentials/service-account-heroku.json
+# google_credentials.json
+# wkt
+# Trash
+# hubzone_polygons.dump
+# python.code/add new page.md
+# hubzone_polygons_.dump
+# hubzone_polygons_backup.dump
+# hubzone_polygons_dump.custom
+# backup_before_prod.dump
+# database_structure.md
+# hubzone_polygons.sql
