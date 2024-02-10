@@ -32,7 +32,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-ALLOWED_HOSTS = ["boiling-ridge-74297-0373cd5fcaf8.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [ "localhost","18.119.9.235","127.0.0.1"]
 
 
 # Application definition
@@ -71,6 +71,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "django_project.urls"
@@ -98,6 +99,7 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # Default configuration for local development
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -105,7 +107,7 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER', 'postgres'),
         # No password needed for local development with 'trust' authentication
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-        'HOST': '0.0.0.0',  # Matches the service name in docker-compose.yml
+        'HOST': 'a23e46aa9d54',  # Matches the service name in docker-compose.yml
         'PORT': '5432',
     }
 }
