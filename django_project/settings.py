@@ -1,3 +1,4 @@
+
 """
 Django settings for django_project project.
 
@@ -12,7 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from environs import Env
-from google.oauth2 import service_account
 import json
 import dj_database_url
 
@@ -23,13 +23,15 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = '/staticfiles/'  # Assuming static files are now under "staticfiles"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-ALLOWED_HOSTS = ["3.144.145.154", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['3.22.186.84', '3.22.186.84:8001', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -68,8 +70,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
+   # "allauth.account.middleware.AccountMiddleware",
 ]
-
 ROOT_URLCONF = "django_project.urls"
 
 TEMPLATES = [
@@ -102,11 +104,10 @@ DATABASES = {
         'USER': os.environ.get('POSTGRES_USER', 'postgres'),
         # No password needed for local development with 'trust' authentication
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-        'HOST': '172.27.0.2',  # Matches the service name in docker-compose.yml
+        'HOST': '172.19.0.2',  # Matches the service name in docker-compose.yml
         'PORT': '5432',
     }
 }
-
 # Override with DATABASE_URL from the environment variable in production (Heroku)
 if 'DATABASE_URL' in os.environ:
     DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
@@ -128,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -160,13 +160,11 @@ USE_TZ = True
 #if GS_CREDENTIALS_JSON:
 #    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
 #        json.loads(GS_CREDENTIALS_JSON)
-#    )
+#    )  
 
 
 # Configure Google Cloud Storage credentials
 
-
-# Default primary key field type - d
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
